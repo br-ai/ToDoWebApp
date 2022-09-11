@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<link href="/static/css/index.css" rel="stylesheet" type="text/css">
+
+<div class="feed">
+
+    <div class="grid-containere">
+                
+        <h2> Merci D'avoir cloturer la journeé {{user.username}}, Voici vos statistiques</h2>
+    </div>
+
+    <div class="grid-containere">
+        
+            <h2> Realisés Total : {{todos_fait|length}} </h2>
+            {% for todo in todos_fait %}
+            <div class="friends">
+                
+            
+                <div class="pic" >
+                    {% if todo.etat == True %}
+                    <label class="container">
+                        <input type="checkbox" checked="checked" id = "{{todo.id}}" onclick="changeState(this)" data-post_id = "{{todo.id}}">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% else%}
+                    <label class="container">
+                        <input type="checkbox" id = "{{todo.id}}" onclick="changeState(this)" data-post_id = "{{todo.id}}">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% endif %}
+                </div>
+                <div class="name">
+                    <p>
+                        {{todo.description}} <span style="font-weight: bold; color:rgb(0, 0, 0); margin-left: 20px;">(fini {{todo.heure_de_fin}})</span>
+                    </p>
+                </div>
+                
+                <div class="time_new_msg">
+                    <p> {{todo.created_date|timesince}}</p>
+                    <div class="msg">    
+                        <svg xmlns="http://www.w3.org/2000/svg" height="96px" viewBox="0 0 24 24" width="96px" fill="#1c87c9"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/>
+                        </svg>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" height="96px" viewBox="0 0 24 24" width="96px" fill="#1c87c9"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/>
+                        </svg>
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+      
+
+    </div>
+
+    <div class="grid-containere">
+        
+        <h2> Non Realisés Total : {{todos_non_fait|length}} </h2>
+        {% for todo in todos_non_fait %}
+        <div class="friends">
+            
+        
+            <div class="pic" >
+                {% if todo.etat == True %}
+                <label class="container">
+                    <input type="checkbox" checked="checked" id = "{{todo.id}}" onclick="changeState(this)" data-post_id = "{{todo.id}}">
+                    <span class="checkmark"></span>
+                </label>
+                {% else%}
+                <label class="container">
+                    <input type="checkbox" id = "{{todo.id}}" onclick="changeState(this)" data-post_id = "{{todo.id}}">
+                    <span class="checkmark"></span>
+                </label>
+                {% endif %}
+            </div>
+            <div class="name">
+                <p>
+                    {{todo.description}} <span style="font-weight: bold; color:rgb(0, 0, 0); margin-left: 20px;">(fini {{todo.heure_de_fin}})</span>
+                </p>
+            </div>
+            
+            <div class="time_new_msg">
+                <p> {{todo.created_date|timesince}}</p>
+                <div class="msg">    
+                    <svg xmlns="http://www.w3.org/2000/svg" height="96px" viewBox="0 0 24 24" width="96px" fill="#1c87c9"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/>
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" height="96px" viewBox="0 0 24 24" width="96px" fill="#1c87c9"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/>
+                    </svg>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+  
+
+</div>
+        
+    <div class="grid-containere">
+                
+        <div style="display: flex; justify-content:space-between; align-items:center">
+           
+            <div onclick="createStory();" class="butt" style="margin-right: 30px;">
+                <button class="btn btn-outline-success float-right" id="edit-profile-btn">
+                    
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8z"/></svg>
+                    historique
+                </button>
+            </div>
+            
+            
+            <div class="butt" style="margin-left: 30px;" >
+
+                    <button  target="_blank" class="btn btn-outline-success float-right" id="edit-profile-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ff0000"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"/>
+                        </svg> Cloturer
+                    </button>
+                
+
+            </div>
+
+        </div>
+    </div>
+            
+</div>
+
+{% endblock %}

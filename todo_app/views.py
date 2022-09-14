@@ -2,7 +2,7 @@ from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -140,3 +140,22 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "register.html")
+
+def modifier(request, id):
+    todo = Todo.objects.get(id = id)
+    if request.method == 'POST':
+        description = request.POST["description"]
+        heure_de_fin = request.POST["heure"]
+        todo.description = description
+        todo.heure_de_fin = heure_de_fin
+        todo.save()
+        return redirect('index')
+    return render(request, 'modifier.html', {'todo':todo})
+
+def supprimer(request, id):
+    todo = Todo.objects.get(id = id)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('index')
+    return render(request, 'supprimer.html', {'todo':todo})
+ 
